@@ -20,17 +20,17 @@ pipeline {
       }
     }
     stage("Approve Policy") {
-      input {
-        message "Please review and approve this change"
-        parameters {
-          string(name: 'ApprovedBy', defaultValue: 'default', description: 'Who are you?')
-        }
+      when {
+        branch "master"
       }
       steps {
         input "Please review and approve this change"
       }
     }
     stage("Apply Policy") {
+      when {
+        branch "master"
+      }
       steps {
         sh "fugue policy validation-remove AWSCISBenchmarks -y"
         sh "fugue policy validation-add Policy/AWSCISFoundationsBenchmark.lw --name AWSCISBenchmarks"
